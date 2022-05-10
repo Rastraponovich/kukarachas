@@ -18,7 +18,8 @@ export const Button = memo(
                     EButtonVariant[variant],
                     className,
                     size === "big" ? "px-28 py-6" : "px-2.5 py-1.5 ",
-                    "rounded-xl  font-bold text-xl leading-[30px] hover:bg-[#00990B] hover:text-white duration-150"
+                    "rounded-xl  font-bold text-xl leading-[30px] hover:bg-[#00990B] hover:text-white duration-150",
+                    "disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:bg-gray-200 disabled:hover:text-gray-400"
                 )}
             >
                 {children}

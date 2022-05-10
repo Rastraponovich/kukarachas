@@ -7,16 +7,15 @@ import clsx from "clsx"
 interface SelectProps {
     items?: any[]
     caption?: string
-    defaultValue: Record<string, any>
+    value: any
+    onChange?(val: any): void
 }
 
-export const Select = memo(({ items, caption, defaultValue }: SelectProps) => {
-    const [selected, setSelected] = useState(defaultValue)
-
+export const Select = memo(({ items, caption, value, onChange }: SelectProps) => {
     return (
         <div className="flex flex-col text-2xl  font-bold">
             <span className="first-letter:uppercase">{caption}</span>
-            <Listbox value={selected} onChange={setSelected}>
+            <Listbox value={value} onChange={onChange}>
                 {({ open }) => (
                     <div className="relative  lowercase">
                         <Listbox.Button
@@ -25,7 +24,7 @@ export const Select = memo(({ items, caption, defaultValue }: SelectProps) => {
                                 "relative w-full cursor-pointer bg-white py-6 px-4 text-center "
                             )}
                         >
-                            <span className="block truncate">{selected.name}</span>
+                            <span className="block truncate">{value.name}</span>
                             <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center pr-2 text-[#36DB41]">
                                 {open ? (
                                     <ChevronUpIcon className="h-5 w-5 " aria-hidden="true" />

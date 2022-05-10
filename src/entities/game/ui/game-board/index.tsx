@@ -21,6 +21,7 @@ export const GameBoard = () => {
 
             {/* <h2>Select Component</h2> */}
             <CreateCommand />
+
             {/* <Select items={people} /> */}
             {/* <Input caption="возраст" /> */}
             {/* <Input caption="возраст" dense /> */}

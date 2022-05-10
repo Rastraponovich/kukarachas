@@ -2,6 +2,7 @@ export type TKukarachaType = "default" | "fastStep" | "sprinter" | "turkish" | "
 export type TKukarachaColor = "default" | "red" | "blue" | "orange" | "green" | "pink"
 
 export enum EKukarachaColor {
+    default = "выбирите цвет",
     red = "красный",
     green = "зеленый",
     blue = "синий",
@@ -10,6 +11,8 @@ export enum EKukarachaColor {
 }
 
 export enum EKukarachaType {
+    default = "выбирите тип",
+
     fastStep = "быстролап",
     sprinter = "спринтер",
     turkish = "туреций",
@@ -21,7 +24,18 @@ export type TKukaracha = {
     image: string
     id: number
     name: string
-    type: TKukarachaType
-    color: TKukarachaColor
+    type: TKukarachaTypes
+    color: TKukarachaColors
     age: number
+}
+export type TKukarachaColors = {
+    id: number
+    name: EKukarachaColor
+    value: TKukarachaColor
+}
+
+export type TKukarachaTypes = {
+    id: number
+    name: EKukarachaType
+    value: TKukarachaType
 }
