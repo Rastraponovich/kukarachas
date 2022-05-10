@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @import "./fonts/fonts.css";
+}
+
+body {
+    margin: 0 auto;
+    @apply bg-[#00990B] font-circe;
+}
+#__next {
+    height: 100vh;
+    min-height: 100%;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: transparent;
+}
