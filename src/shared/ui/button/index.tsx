@@ -6,26 +6,21 @@ import clsx from "clsx"
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode
     variant?: TButtonVariant
-    size?: "big" | "normal"
 }
 
-export const Button = memo(
-    ({ children, variant = "NORMAL", className, size = "normal", ...props }: ButtonProps) => {
-        return (
-            <button
-                {...props}
-                className={clsx(
-                    EButtonVariant[variant],
-                    className,
-                    size === "big" ? "px-28 py-6" : "px-2.5 py-1.5 ",
-                    "rounded-xl  font-bold text-xl leading-[30px] hover:bg-[#00990B] hover:text-white duration-150",
-                    "disabled:bg-gray-200 disabled:text-gray-400 disabled:hover:bg-gray-200 disabled:hover:text-gray-400"
-                )}
-            >
-                {children}
-            </button>
-        )
-    }
-)
+export const Button = memo(({ children, variant = "NORMAL", className, ...props }: ButtonProps) => {
+    return (
+        <button
+            {...props}
+            className={clsx(
+                "rounded-lg duration-150 px-10 py-4 first-letter:uppercase self-center bg-[#00990B] text-white disabled:text-black hover:bg-[#99D69D] disabled:bg-[#D9D7D7] disabled:hover:bg-[#D9D7D7]",
+                EButtonVariant[variant],
+                className
+            )}
+        >
+            {children}
+        </button>
+    )
+})
 
 Button.displayName = "Button"

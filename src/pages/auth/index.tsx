@@ -1,11 +1,11 @@
-import { GameBoard } from "entities/game/ui"
+import { AuthForm } from "entities/auth"
 import { NextPage } from "next"
 import { Layout } from "widgets/layout"
 
 const HomePage: NextPage = () => {
     return (
-        <Layout title={"набор участников"}>
-            <GameBoard />
+        <Layout>
+            <AuthForm />
         </Layout>
     )
 }

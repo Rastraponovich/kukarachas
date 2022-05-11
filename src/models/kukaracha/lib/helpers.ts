@@ -1,4 +1,4 @@
-import type { TKukaracha, TKukarachaColors, TKukarachaTypes } from "./models"
+import type { TKukaracha, TKukarachaColor, TKukarachaColors, TKukarachaTypes } from "./models"
 import { EKukarachaColor, EKukarachaType } from "./models"
 
 export const __kukarachas__: TKukaracha[] = [
@@ -8,7 +8,7 @@ export const __kukarachas__: TKukaracha[] = [
         image: "default-kukaracha.svg",
         age: 0,
         type: { id: 0, value: "default", name: EKukarachaType.default },
-        color: { id: 0, value: "default", name: EKukarachaColor.default },
+        color: "#000",
     },
     {
         id: 2,
@@ -16,7 +16,7 @@ export const __kukarachas__: TKukaracha[] = [
         image: "default-kukaracha.svg",
         age: 0,
         type: { id: 0, value: "default", name: EKukarachaType.default },
-        color: { id: 0, value: "default", name: EKukarachaColor.default },
+        color: "#000",
     },
     {
         id: 3,
@@ -24,7 +24,7 @@ export const __kukarachas__: TKukaracha[] = [
         image: "default-kukaracha.svg",
         age: 0,
         type: { id: 0, value: "default", name: EKukarachaType.default },
-        color: { id: 0, value: "default", name: EKukarachaColor.default },
+        color: "#000",
     },
     {
         id: 4,
@@ -32,7 +32,7 @@ export const __kukarachas__: TKukaracha[] = [
         image: "default-kukaracha.svg",
         age: 0,
         type: { id: 0, value: "default", name: EKukarachaType.default },
-        color: { id: 0, value: "default", name: EKukarachaColor.default },
+        color: "#000",
     },
     {
         id: 5,
@@ -40,7 +40,7 @@ export const __kukarachas__: TKukaracha[] = [
         image: "default-kukaracha.svg",
         type: { id: 0, value: "default", name: EKukarachaType.default },
         age: 0,
-        color: { id: 0, value: "default", name: EKukarachaColor.default },
+        color: "#000",
     },
 ]
 
@@ -61,3 +61,12 @@ export const __kukarachesTypes__: TKukarachaTypes[] = [
     { id: 4, value: "sprinter", name: EKukarachaType.sprinter },
     { id: 5, value: "turkish", name: EKukarachaType.turkish },
 ]
+
+export const __kukarachaColorValues__: Record<TKukarachaColor, string> = {
+    green: "fill-[#00FFEC]",
+    red: "fill-[#EC1C24]",
+    blue: "fill-[#2805FF]",
+    default: "fill-[#000000]",
+    orange: "fill-[#FFA300]",
+    pink: "fill-[#E600FF]",
+}

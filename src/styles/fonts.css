@@ -1,0 +1,24 @@
+@font-face {
+    font-family: "Roboto Serif", serif;
+    font-style: normal;
+    font-weight: 400;
+    src: local("Roboto Serif"),
+        url(/assets/fonts/RobotoSerif/RobotoSerif-Regular.ttf) format("truetype");
+    font-display: swap;
+}
+@font-face {
+    font-family: "Roboto Serif", serif;
+    font-style: normal;
+    font-weight: 500;
+    src: local("'Roboto Serif'"),
+        url(/assets/fonts/RobotoSerif/RobotoSerif-Medium.ttf) format("truetype");
+    font-display: swap;
+}
+@font-face {
+    font-family: "Roboto Serif", serif;
+    font-style: normal;
+    font-weight: 600;
+    src: local("Roboto Serif"),
+        url(/assets/fonts/RobotoSerif/RobotoSerif-SemiBold.ttf) format("truetype");
+    font-display: swap;
+}

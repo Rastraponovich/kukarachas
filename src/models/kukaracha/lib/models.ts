@@ -25,7 +25,7 @@ export type TKukaracha = {
     id: number
     name: string
     type: TKukarachaTypes
-    color: TKukarachaColors
+    color: string
     age: number
 }
 export type TKukarachaColors = {

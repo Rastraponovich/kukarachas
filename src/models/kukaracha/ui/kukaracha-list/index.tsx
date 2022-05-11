@@ -10,8 +10,10 @@ interface KukarachaListProps {
 }
 
 export const KukarachaList = memo(({ items, selected, onSelect }: KukarachaListProps) => {
+    if (items.length === 0)
+        return <span className="text-center">Команда пуста, добавьте участников соревнования</span>
     return (
-        <ul className="flex flex-col bg-white px-[13px] rounded-xl pt-[5px] pb-[100px] grow">
+        <ul className="flex flex-col  p-6 space-y-6 rounded-xl text-left grow">
             {items.map((item) => (
                 <KukarachaListItem
                     onClick={onSelect}
@@ -40,8 +42,8 @@ const KukarachaListItem = memo(
             <li
                 onClick={() => onClick(id)}
                 className={clsx(
-                    "flex items-center space-x-3 text-center font-bold text-2xl p-[11px] border-b-4 border-b-[#99D69D] border-dashed",
-                    selected && "bg-gray-200"
+                    "rounded-lg flex items-center space-x-10  py-4 px-2.5",
+                    selected && "bg-[#99D69D]"
                 )}
             >
                 <Image height={68} width={61} src={`/assets/images/${image}`} />

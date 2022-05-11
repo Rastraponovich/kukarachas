@@ -4,7 +4,7 @@ module.exports = {
     theme: {
         extend: {
             fontFamily: {
-                circe: "'Circe', sans-serif",
+                roboto: ['"Roboto Serif"', "serif"],
             },
         },
     },

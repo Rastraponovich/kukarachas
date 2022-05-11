@@ -10,9 +10,9 @@ const __bulkKukaracha__: TKukaracha = {
     id: 0,
     name: "",
     age: 0,
-    image: "default-kukaracha.svg",
+    image: "sprinter.svg",
     type: { id: 0, name: EKukarachaType.default, value: "default" },
-    color: { id: 0, name: EKukarachaColor.default, value: "default" },
+    color: "#000",
 }
 
 const $canSubmitTeam = createStore<boolean>(false)
@@ -37,7 +37,7 @@ const $currentKukaracha = createStore<TKukaracha>(__bulkKukaracha__)
         ...state,
         [event.target.id]: event.target.value,
     }))
-    .on(selectColor, (state, payload) => ({ ...state, color: payload }))
+    // .on(selectColor, (state, payload) => ({ ...state, color: payload }))
     .on(selectType, (state, payload) => ({ ...state, type: payload }))
 
 const submitKukaracha = createEvent()

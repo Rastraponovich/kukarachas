@@ -13,18 +13,20 @@ interface SelectProps {
 
 export const Select = memo(({ items, caption, value, onChange }: SelectProps) => {
     return (
-        <div className="flex flex-col text-2xl  font-bold">
-            <span className="first-letter:uppercase">{caption}</span>
+        <div className="flex flex-col ">
+            <span className="first-letter:uppercase mb-4">{caption}</span>
             <Listbox value={value} onChange={onChange}>
                 {({ open }) => (
-                    <div className="relative  lowercase">
+                    <div className="relative  lowercase text-base leading-[19px]">
                         <Listbox.Button
                             className={clsx(
-                                open ? "rounded-t-xl" : "rounded-xl",
-                                "relative w-full cursor-pointer bg-white py-6 px-4 text-center "
+                                open ? "rounded-t-lg" : "rounded-lg",
+                                "relative w-full cursor-pointer bg-white py-4   border border-black"
                             )}
                         >
-                            <span className="block truncate">{value.name}</span>
+                            <span className="block truncate pl-[18px] pr-[27px] text-left ">
+                                {value.name}
+                            </span>
                             <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center pr-2 text-[#36DB41]">
                                 {open ? (
                                     <ChevronUpIcon className="h-5 w-5 " aria-hidden="true" />
@@ -39,15 +41,13 @@ export const Select = memo(({ items, caption, value, onChange }: SelectProps) =>
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <Listbox.Options className="z-50 absolute w-full rounded-b-xl bg-white pb-2 pr-[15px] pl-3 shadow-lg">
+                            <Listbox.Options className="z-50 absolute w-full rounded-b-lg bg-white pb-2 pr-[15px] pl-3 shadow-lg border border-black border-t-transparent divide-y divide-[#A8B8E1]">
                                 {items.map((person, personIdx) => (
                                     <Listbox.Option
                                         key={personIdx}
                                         className={({ active }) =>
-                                            `relative cursor-pointer select-none py-4 text-center border-t-4 border-[#99D69D] border-dashed ${
-                                                active
-                                                    ? "bg-amber-100 text-amber-900"
-                                                    : "text-gray-900"
+                                            `relative cursor-pointer select-none py-2  text-center  ${
+                                                active ? "bg-[#A8B8E1] text-white" : "text-gray-900"
                                             }`
                                         }
                                         value={person}

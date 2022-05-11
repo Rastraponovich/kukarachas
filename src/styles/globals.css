@@ -1,14 +1,20 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-    @import "./fonts/fonts.css";
-}
+/* @import "./fonts.css";
+ */
 
-body {
-    margin: 0 auto;
-    @apply bg-[#00990B] font-circe;
+@layer base {
+    body {
+        margin: 0 auto;
+        /* font-family: "Roboto Serif", serif; */
+        @apply bg-[#00990B];
+    }
+    html {
+        font-family: "Roboto", sans-serif;
+    }
 }
 #__next {
     height: 100vh;

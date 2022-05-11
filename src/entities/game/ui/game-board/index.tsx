@@ -16,7 +16,8 @@ const people = [
 
 export const GameBoard = () => {
     return (
-        <section className="bg-[#99D69D] flex flex-col px-[50px] pt-[72px] pb-[22px] rounded-3xl">
+        //px-[50px] pt-[72px] pb-[22px]
+        <section className="bg-[#99D69D] flex flex-col  rounded-3xl">
             {/* <Button variant="NORMAL">Сделать ставку</Button> */}
 
             {/* <h2>Select Component</h2> */}

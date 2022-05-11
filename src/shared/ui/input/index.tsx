@@ -8,13 +8,13 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = memo(({ caption, dense = false, ...props }: InputProps) => {
     return (
-        <label className="flex flex-col space-y-2 text-black font-bold text-2xl">
+        <label className="flex flex-col space-y-4 ">
             <span className="first-letter:uppercase">{caption}</span>
             <input
                 className={clsx(
                     props.className,
-                    dense ? "py-4 text-xl" : "py-6",
-                    "text-center bg-white rounded-xl"
+                    dense ? "text-xl" : "py-4 px-[19px]",
+                    "bg-white rounded-lg border border-black placeholder:first-letter:uppercase text-base placeholder:text-black leading-[19px]"
                 )}
                 {...props}
             />
