@@ -2,12 +2,12 @@ import { AuthForm } from "entities/auth"
 import { NextPage } from "next"
 import { Layout } from "widgets/layout"
 
-const HomePage: NextPage = () => {
+const AuthPage: NextPage = () => {
     return (
-        <Layout>
+        <Layout color="bg-[#00990B]">
             <AuthForm />
         </Layout>
     )
 }
 
-export default HomePage
+export default AuthPage

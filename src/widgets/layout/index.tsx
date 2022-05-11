@@ -1,12 +1,14 @@
+import clsx from "clsx"
 import Head from "next/head"
 import { ReactNode } from "react"
 
 interface LayoutProps {
     children: ReactNode
     title?: string
+    color?: string
 }
 
-export const Layout = ({ children, title }: LayoutProps) => {
+export const Layout = ({ children, title, color = "bg-[#99D69D]" }: LayoutProps) => {
     return (
         //px-24 py-16
         <>
@@ -18,8 +20,7 @@ export const Layout = ({ children, title }: LayoutProps) => {
                     rel="stylesheet"
                 />
             </Head>
-            <header></header>
-            <main className="flex flex-col space-y-4 p-10">
+            <main className={clsx("flex flex-col space-y-4 p-10", color)}>
                 <div className="flex justify-between items-center">
                     <h2 className="text-white font-bold text-4xl leading-[37px] first-letter:uppercase">
                         {title}
@@ -30,7 +31,6 @@ export const Layout = ({ children, title }: LayoutProps) => {
                 </div>
                 {children}
             </main>
-            <footer></footer>
         </>
     )
 }

@@ -11,44 +11,64 @@ export const KukarachaImage = memo(({ type = "default", color = "#000" }: Kukara
 
     return (
         <div className="relative p-[27px] bg-white rounded-xl flex items-center justify-center ">
-            {/* <Image src={image} height={441} width={366} /> */}
             {KukaImg}
-            {/* <KukarachaSprtinter color="red" /> */}
         </div>
     )
 })
 
 KukarachaImage.displayName = "KukarachaImage"
 
-interface GenerateKukarachaProps {
-    type: TKukarachaType
-    color: string
+const kukaSizes = {
+    normal: {
+        h: 304,
+        w: 304,
+    },
+    small: {
+        h: 68,
+        w: 61,
+    },
+    track: {
+        h: 55,
+        w: 61,
+    },
 }
-const generateKukaracha = ({ type, color }: GenerateKukarachaProps) => {
+
+interface GenerateKukarachaProps {
+    type?: TKukarachaType
+    color?: string
+    size?: "normal" | "small" | "track"
+}
+export const generateKukaracha = ({
+    type = "default",
+    color = "#000000",
+    size = "normal",
+}: GenerateKukarachaProps) => {
     switch (type) {
         case "sprinter":
-            return <KukarachaSprtinter color={color} />
+            return <KukarachaSprtinter color={color} size={size} />
         case "american":
-            return <KukarachaAmerican color={color} />
+            return <KukarachaAmerican color={color} size={size} />
         case "fastStep":
-            return <KukarachaFastFoot color={color} />
+            return <KukarachaFastFoot color={color} size={size} />
         case "field":
-            return <KukarachaField color={color} />
+            return <KukarachaField color={color} size={size} />
         case "turkish":
-            return <KukarachaTurkish color={color} />
+            return <KukarachaTurkish color={color} size={size} />
         default:
-            return <KukarachaSprtinter color={color} />
+            return <KukarachaSprtinter color={color} size={size} />
     }
 }
 
 interface GenerateKukarachaTypeProps {
     color: string
+    size: "normal" | "small" | "track"
 }
-const KukarachaSprtinter = ({ color }: GenerateKukarachaTypeProps) => {
+const KukarachaSprtinter = ({ color, size }: GenerateKukarachaTypeProps) => {
     return (
         <svg
-            width="304"
-            height="304"
+            width={kukaSizes[size].w}
+            height={kukaSizes[size].h}
+            className={size === "track" && "rotate-90 absolute"}
             viewBox="0 0 188 211"
             xmlns="http://www.w3.org/2000/svg"
             fill={color}
@@ -76,7 +96,7 @@ const KukarachaSprtinter = ({ color }: GenerateKukarachaTypeProps) => {
             <path
                 d="M78.22 52.49C75.33 52.62 59.15 52.49 49.01 57.47C46.1 60.6 43.45 64.05 41.05 67.74C49.03 65.47 56.26 74.01 56.48 82.34C56.71 91.57 53.11 109.05 40.83 109.06C34.12 109.06 30.58 105.44 29.01 100.39C28.99 100.71 28.84 101.01 28.62 101.24C28.1 104.73 27.77 108.3 27.66 111.94C27.63 111.95 27.61 111.95 27.58 111.96C27.62 112.21 27.62 112.47 27.65 112.73C27.64 113.33 27.6 113.93 27.6 114.54C27.6 118.71 27.9 122.8 28.43 126.78C28.83 126.52 29.23 126.26 29.7 126.07C36.02 123.56 40.74 129.97 43.26 134.94C46 140.32 47.31 147 44.52 152.57C43.1 155.41 40.76 156.69 38.23 156.69C48.65 175.5 65.84 188.65 85.73 191.38C88.78 191.8 91.51 189.43 91.51 186.35V89.03C91.44 88.91 91.23 59.37 78.22 52.49ZM86.87 138.96C84.62 146.53 75.54 156.82 67.54 148.63C60.78 141.7 62.42 129.18 65.88 121.05C68.29 115.38 73.26 108.9 79.07 110.52C90.63 113.02 89.36 130.53 86.87 138.96Z"
                 stroke="white"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
             />
             <path
                 d="M82.38 114.9C82.09 115.05 81.73 114.29 81.46 114.04C69.43 103.07 59.5 138.32 69.01 146.59C82.4 158.21 93.37 124.41 82.38 114.9Z"
@@ -93,7 +113,7 @@ const KukarachaSprtinter = ({ color }: GenerateKukarachaTypeProps) => {
             <path
                 d="M157.44 96.37C155.51 100.53 152.3 103.83 147.18 104.78C140.22 106.07 132.66 101.36 129.39 95.36C125.27 87.82 125.57 77.07 131.95 70.71C135.82 66.86 140.12 65.24 145.35 66.98C143.01 63.46 140.42 60.16 137.6 57.16C126.73 55.4 115.81 53.66 104.84 52.81C94.7 57.41 93.3 73.28 93.61 84.15C93.62 84.21 93.65 84.24 93.65 84.3V85.26C93.69 86.3 93.75 88.65 93.65 88.84V186.58C93.65 189.59 96.27 191.94 99.27 191.63C119.06 189.58 136.32 177.25 147.19 159.21C145.02 159.95 142.62 160 140.03 158.97C133.39 156.31 131.93 148.18 133.6 142.01C135.33 135.63 141.15 130.38 147.72 129.38C152.22 128.69 155.52 130.28 157.33 133.28C158.6 127.29 159.28 121.01 159.28 114.55C159.29 108.28 158.64 102.2 157.44 96.37ZM114.96 150.07C103.32 152.75 96.41 137.7 96.18 128.19C95.99 120.52 99.49 106.77 109.77 110.3C123.53 112.92 130.72 146.43 114.96 150.07Z"
                 stroke="white"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
             />
             <path
                 d="M135.42 142.95C134.38 147.93 135.63 154.04 140.62 156.49C143.78 158.05 146.62 157.55 149.01 156.02C152.15 150.23 154.65 143.93 156.4 137.23C153.88 126.51 137.46 133.18 135.42 142.95Z"
@@ -144,9 +164,9 @@ const KukarachaSprtinter = ({ color }: GenerateKukarachaTypeProps) => {
                     gradientUnits="userSpaceOnUse"
                     gradientTransform="translate(93.5719 105.092) scale(99.4988)"
                 >
-                    <stop offset="0.5744" stop-color="#130C0E" />
-                    <stop offset="0.7977" stop-color="#130C0E" />
-                    <stop offset="1" stop-color="#130C0E" />
+                    <stop offset="0.5744" stopColor="#130C0E" />
+                    <stop offset="0.7977" stopColor="#130C0E" />
+                    <stop offset="1" stopColor="#130C0E" />
                 </radialGradient>
                 <radialGradient
                     id="paint1_radial_146_61"
@@ -156,20 +176,21 @@ const KukarachaSprtinter = ({ color }: GenerateKukarachaTypeProps) => {
                     gradientUnits="userSpaceOnUse"
                     gradientTransform="translate(108.564 23.9751) scale(0.0521032)"
                 >
-                    <stop offset="0.5744" stop-color="#130C0E" />
-                    <stop offset="0.7977" stop-color="#130C0E" />
-                    <stop offset="1" stop-color="#130C0E" />
+                    <stop offset="0.5744" stopColor="#130C0E" />
+                    <stop offset="0.7977" stopColor="#130C0E" />
+                    <stop offset="1" stopColor="#130C0E" />
                 </radialGradient>
             </defs>
         </svg>
     )
 }
 
-const KukarachaField = ({ color }: GenerateKukarachaTypeProps) => {
+const KukarachaField = ({ color, size }: GenerateKukarachaTypeProps) => {
     return (
         <svg
-            width="304"
-            height="304"
+            width={kukaSizes[size].w}
+            height={kukaSizes[size].h}
+            className={size === "track" && "rotate-90 absolute"}
             viewBox="0 0 189 211"
             xmlns="http://www.w3.org/2000/svg"
             fill={color}
@@ -225,7 +246,7 @@ const KukarachaField = ({ color }: GenerateKukarachaTypeProps) => {
             <path
                 d="M91.16 58.02V198.69C91.16 201.2 88.49 202.82 86.29 201.63C72.92 194.41 36.36 170.67 31.42 124.94C25.37 68.83 63.53 54.7 63.53 54.7C63.53 54.7 72.51 50.48 85.75 51.92C88.82 52.26 91.16 54.92 91.16 58.02Z"
                 stroke="white"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
             />
             <path
                 d="M91.1 83.13V90.21L47.52 66.16C49.08 64.49 50.7 62.98 52.21 61.73L91.1 83.13Z"
@@ -262,7 +283,7 @@ const KukarachaField = ({ color }: GenerateKukarachaTypeProps) => {
             <path
                 d="M96.55 58.84V199.51C96.55 202.02 99.22 203.64 101.42 202.45C114.79 195.23 151.35 171.49 156.29 125.76C162.34 69.65 124.18 55.52 124.18 55.52C124.18 55.52 115.2 51.3 101.96 52.74C98.88 53.08 96.55 55.74 96.55 58.84Z"
                 stroke="white"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
             />
             <path
                 d="M96.6 83.95V91.03L140.18 66.98C138.62 65.31 137 63.8 135.49 62.55L96.6 83.95Z"
@@ -300,11 +321,12 @@ const KukarachaField = ({ color }: GenerateKukarachaTypeProps) => {
     )
 }
 
-const KukarachaFastFoot = ({ color }: GenerateKukarachaTypeProps) => {
+const KukarachaFastFoot = ({ color, size }: GenerateKukarachaTypeProps) => {
     return (
         <svg
-            width="304"
-            height="304"
+            width={kukaSizes[size].w}
+            height={kukaSizes[size].h}
+            className={size === "track" && "rotate-90 absolute"}
             viewBox="0 0 188 211"
             fill={color}
             xmlns="http://www.w3.org/2000/svg"
@@ -360,42 +382,43 @@ const KukarachaFastFoot = ({ color }: GenerateKukarachaTypeProps) => {
             <path
                 d="M90.3 58.02V198.69C90.3 201.2 87.63 202.82 85.43 201.63C72.06 194.41 35.5 170.67 30.56 124.94C24.51 68.83 62.67 54.7 62.67 54.7C62.67 54.7 71.65 50.48 84.89 51.92C87.96 52.26 90.3 54.92 90.3 58.02Z"
                 stroke="white"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
             />
             <path
                 d="M90.3 138.1V198.69C90.3 201.2 87.63 202.82 85.43 201.63C72.06 194.41 35.5 170.67 30.56 124.94C24.51 68.83 62.67 134.79 62.67 134.79C62.67 134.79 71.65 130.57 84.89 132.01C87.96 132.35 90.3 135 90.3 138.1Z"
                 fill="white"
-                fill-opacity="0.5"
+                fillOpacity="0.5"
             />
             <path
                 d="M90.3 156.89V198.69C90.3 201.2 87.63 202.82 85.43 201.63C72.06 194.41 35.5 170.67 30.56 124.94C24.51 68.83 62.67 153.57 62.67 153.57C62.67 153.57 71.65 149.35 84.89 150.79C87.96 151.13 90.3 153.79 90.3 156.89Z"
                 fill="white"
-                fill-opacity="0.7"
+                fillOpacity="0.7"
             />
             <path
                 d="M95.21 58.02V198.69C95.21 201.2 97.88 202.82 100.08 201.63C113.45 194.41 150.01 170.67 154.95 124.94C161 68.83 122.84 54.7 122.84 54.7C122.84 54.7 113.86 50.48 100.62 51.92C97.55 52.26 95.21 54.92 95.21 58.02Z"
                 stroke="white"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
             />
             <path
                 d="M95.21 138.1V198.69C95.21 201.2 97.88 202.82 100.08 201.63C113.45 194.41 150.01 170.67 154.95 124.94C161 68.83 122.84 134.79 122.84 134.79C122.84 134.79 113.86 130.57 100.62 132.01C97.55 132.35 95.21 135 95.21 138.1Z"
                 fill="white"
-                fill-opacity="0.5"
+                fillOpacity="0.5"
             />
             <path
                 d="M95.21 156.89V198.69C95.21 201.2 97.88 202.82 100.08 201.63C113.45 194.41 150.01 170.67 154.95 124.94C161 68.83 122.84 153.57 122.84 153.57C122.84 153.57 113.86 149.35 100.62 150.79C97.55 151.13 95.21 153.79 95.21 156.89Z"
                 fill="white"
-                fill-opacity="0.7"
+                fillOpacity="0.7"
             />
         </svg>
     )
 }
 
-const KukarachaTurkish = ({ color }: GenerateKukarachaTypeProps) => {
+const KukarachaTurkish = ({ color, size }: GenerateKukarachaTypeProps) => {
     return (
         <svg
-            width="304"
-            height="304"
+            width={kukaSizes[size].w}
+            height={kukaSizes[size].h}
+            className={size === "track" && "rotate-90 absolute"}
             viewBox="0 0 188 211"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -468,12 +491,13 @@ const KukarachaTurkish = ({ color }: GenerateKukarachaTypeProps) => {
     )
 }
 
-const KukarachaAmerican = ({ color }: GenerateKukarachaTypeProps) => {
+const KukarachaAmerican = ({ color, size }: GenerateKukarachaTypeProps) => {
     return (
         <svg
-            width="304"
-            height="304"
+            width={kukaSizes[size].w}
+            height={kukaSizes[size].h}
             viewBox="0 0 189 211"
+            className={size === "track" && "rotate-90 absolute"}
             xmlns="http://www.w3.org/2000/svg"
             fill={color}
         >
@@ -528,12 +552,12 @@ const KukarachaAmerican = ({ color }: GenerateKukarachaTypeProps) => {
             <path
                 d="M77.79 98.38L47.2601 102.81C45.0801 103.13 44.21 105.81 45.79 107.35L67.91 128.89L62.68 159.34C62.31 161.51 64.59 163.17 66.54 162.14L91.18 149.19V198.7C91.18 201.2 88.47 202.81 86.29 201.62C72.91 194.38 36.36 170.64 31.42 124.93C25.38 68.81 63.54 54.7 63.54 54.7C63.54 54.7 72.4901 50.48 85.7701 51.94C88.8401 52.25 91.18 54.91 91.18 58.03V71.31L77.79 98.38Z"
                 stroke="white"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
             />
             <path
                 d="M110.73 98.38L141.26 102.81C143.44 103.13 144.31 105.81 142.73 107.35L120.61 128.89L125.84 159.34C126.21 161.51 123.93 163.17 121.98 162.14L97.3401 149.19V198.7C97.3401 201.2 100.05 202.81 102.23 201.62C115.61 194.38 152.16 170.64 157.1 124.93C163.14 68.81 124.98 54.7 124.98 54.7C124.98 54.7 116.03 50.48 102.75 51.94C99.6801 52.25 97.3401 54.91 97.3401 58.03V71.31L110.73 98.38Z"
                 stroke="white"
-                stroke-miterlimit="10"
+                strokeMiterlimit="10"
             />
             <path
                 d="M97.06 79.78L107.86 101.66L132.01 105.17C134.37 105.51 135.31 108.41 133.6 110.07L116.13 127.1L120.25 151.15C120.65 153.5 118.19 155.29 116.08 154.18L94.48 142.83L72.88 154.18C70.77 155.29 68.31 153.5 68.71 151.15L72.83 127.1L55.36 110.07C53.65 108.41 54.6 105.51 56.95 105.17L81.1 101.66L91.9 79.78C92.96 77.64 96.01 77.64 97.06 79.78Z"

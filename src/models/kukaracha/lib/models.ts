@@ -21,7 +21,6 @@ export enum EKukarachaType {
 }
 
 export type TKukaracha = {
-    image: string
     id: number
     name: string
     type: TKukarachaTypes

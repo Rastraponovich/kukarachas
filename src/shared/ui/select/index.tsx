@@ -1,7 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react"
-import { Component, Fragment, memo, useState } from "react"
+import { Fragment, memo } from "react"
 
-import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/outline"
 import clsx from "clsx"
 
 interface SelectProps {
@@ -18,21 +17,16 @@ export const Select = memo(({ items, caption, value, onChange }: SelectProps) =>
             <Listbox value={value} onChange={onChange}>
                 {({ open }) => (
                     <div className="relative  lowercase text-base leading-[19px]">
-                        <Listbox.Button
-                            className={clsx(
-                                open ? "rounded-t-lg" : "rounded-lg",
-                                "relative w-full cursor-pointer bg-white py-4   border border-black"
-                            )}
-                        >
+                        <Listbox.Button className="relative w-full cursor-pointer bg-white py-4 rounded-lg  border border-black">
                             <span className="block truncate pl-[18px] pr-[27px] text-left ">
                                 {value.name}
                             </span>
                             <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center pr-2 text-[#36DB41]">
-                                {open ? (
-                                    <ChevronUpIcon className="h-5 w-5 " aria-hidden="true" />
-                                ) : (
-                                    <ChevronDownIcon className="h-5 w-5 " aria-hidden="true" />
-                                )}
+                                <TriangleUpIcon
+                                    className={clsx(
+                                        !open ? " text-[#C4C4C4]" : "rotate-180 text-[#00990B]"
+                                    )}
+                                />
                             </span>
                         </Listbox.Button>
                         <Transition
@@ -41,36 +35,18 @@ export const Select = memo(({ items, caption, value, onChange }: SelectProps) =>
                             leaveFrom="opacity-100"
                             leaveTo="opacity-0"
                         >
-                            <Listbox.Options className="z-50 absolute w-full rounded-b-lg bg-white pb-2 pr-[15px] pl-3 shadow-lg border border-black border-t-transparent divide-y divide-[#A8B8E1]">
-                                {items.map((person, personIdx) => (
+                            <Listbox.Options className="z-50 absolute w-full rounded-lg bg-white p-2.5  shadow-lg border border-black space-y-2.5">
+                                {items.map((kukaracha, idx) => (
                                     <Listbox.Option
-                                        key={personIdx}
+                                        key={idx}
                                         className={({ active }) =>
-                                            `relative cursor-pointer select-none py-2  text-center  ${
-                                                active ? "bg-[#A8B8E1] text-white" : "text-gray-900"
+                                            `relative px-[30px] py-4 cursor-pointer select-none  rounded-lg  ${
+                                                active && "bg-[#C4C4C4] text-[#231F20]"
                                             }`
                                         }
-                                        value={person}
+                                        value={kukaracha}
                                     >
-                                        {({ selected }) => (
-                                            <>
-                                                <span
-                                                    className={`block truncate ${
-                                                        selected ? "font-medium" : "font-normal"
-                                                    }`}
-                                                >
-                                                    {person.name}
-                                                </span>
-                                                {selected ? (
-                                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                                        <CheckIcon
-                                                            className="h-5 w-5"
-                                                            aria-hidden="true"
-                                                        />
-                                                    </span>
-                                                ) : null}
-                                            </>
-                                        )}
+                                        <span className="block truncate">{kukaracha.name}</span>
                                     </Listbox.Option>
                                 ))}
                             </Listbox.Options>
@@ -82,3 +58,19 @@ export const Select = memo(({ items, caption, value, onChange }: SelectProps) =>
     )
 })
 Select.displayName = "Select"
+
+const TriangleUpIcon = memo(({ className }: { className: string }) => {
+    return (
+        <svg
+            width="14"
+            height="10"
+            viewBox="0 0 14 10"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+            className={className}
+        >
+            <path d="M7 0L13.9282 9.75H0.0717969L7 0Z" />
+        </svg>
+    )
+})
+TriangleUpIcon.displayName = "TriangleUpIcon"

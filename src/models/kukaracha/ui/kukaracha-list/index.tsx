@@ -1,7 +1,7 @@
 import clsx from "clsx"
-import { TKukaracha } from "models/kukaracha/lib"
-import Image from "next/image"
 import { memo } from "react"
+import type { TKukaracha } from "models/kukaracha/lib"
+import { generateKukaracha } from "../kukaracha-image"
 
 interface KukarachaListProps {
     items: TKukaracha[]
@@ -10,18 +10,15 @@ interface KukarachaListProps {
 }
 
 export const KukarachaList = memo(({ items, selected, onSelect }: KukarachaListProps) => {
-    if (items.length === 0)
-        return <span className="text-center">Команда пуста, добавьте участников соревнования</span>
     return (
-        <ul className="flex flex-col  p-6 space-y-6 rounded-xl text-left grow">
-            {items.map((item) => (
+        <ul className="flex flex-col  p-3.5 space-y-6 rounded-xl text-left">
+            {items.map((kukaracha) => (
                 <KukarachaListItem
                     onClick={onSelect}
-                    id={item.id}
-                    key={item.id}
-                    name={item.name}
-                    image={item.image}
-                    selected={selected === item.id}
+                    id={kukaracha.id}
+                    key={kukaracha.id}
+                    kukaracha={kukaracha}
+                    selected={selected === kukaracha.id}
                 />
             ))}
         </ul>
@@ -30,24 +27,28 @@ export const KukarachaList = memo(({ items, selected, onSelect }: KukarachaListP
 KukarachaList.displayName = "KukarachaList"
 
 interface KukarachaListItemProps {
-    name: TKukaracha["name"]
-    image: TKukaracha["image"]
     id: TKukaracha["id"]
+    kukaracha: TKukaracha
     onClick(id: TKukaracha["id"]): void
     selected?: boolean
 }
 const KukarachaListItem = memo(
-    ({ name, image, selected = false, onClick, id }: KukarachaListItemProps) => {
+    ({ kukaracha, selected = false, onClick, id }: KukarachaListItemProps) => {
+        const kuka = generateKukaracha({
+            color: kukaracha.color,
+            type: kukaracha.type.value,
+            size: "small",
+        })
         return (
             <li
-                onClick={() => onClick(id)}
+                onClick={() => onClick(kukaracha.id)}
                 className={clsx(
                     "rounded-lg flex items-center space-x-10  py-4 px-2.5",
                     selected && "bg-[#99D69D]"
                 )}
             >
-                <Image height={68} width={61} src={`/assets/images/${image}`} />
-                <span className="grow first-letter:uppercase">{name}</span>
+                {kuka}
+                <span className="grow first-letter:uppercase">{kukaracha.name}</span>
             </li>
         )
     }
