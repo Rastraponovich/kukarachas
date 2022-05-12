@@ -1,8 +1,8 @@
+import { GameInfo } from "entities/game/ui/game-info"
 import { NextPage } from "next"
 import { InputHTMLAttributes, memo, useEffect, useState } from "react"
 import { Button } from "shared/ui/button"
 import { MegaphoneIcon, SpriteIcons } from "shared/ui/icons"
-import { Modal } from "shared/ui/modal"
 import { Layout } from "widgets/layout"
 
 const __tracks__ = [
@@ -71,9 +71,7 @@ const GamePage: NextPage = () => {
                 /> */}
                     </div>
 
-                    <Modal>
-                        <div>еба еба</div>
-                    </Modal>
+                    <GameInfo />
                     <div className="flex flex-col space-y-2.5 px-10 justify-center text-2xl leading-7">
                         <Button
                             disabled
@@ -109,42 +107,34 @@ const Track = memo(({ firstLetter, lastLetter, value, starting, name, color }: T
     const [isStarted, setIsStarted] = useState(starting)
 
     useEffect(() => {
-        console.log("hook1")
-
-        if (starting) setIsStarted(true)
+        if (starting) return () => setIsStarted(true)
+        return () => setIsStarted(false)
     }, [starting])
 
-    // useEffect(() => {
-    //     console.log("hook2")
+    useEffect(() => {
+        if (isStarted) {
+            const timer = setInterval(() => {
+                if (progress < 100)
+                    return setProgress(progress + Math.floor(Math.random() * (3 - 1 + 1) + 1))
+                return setIsStarted(false)
+            }, 300)
 
-    //     if (isStarted) {
-    //         const timer = setInterval(() => {
-    //             if (progress < 100)
-    //                 return setProgress(progress + Math.floor(Math.random() * (3 - 1 + 1) + 1))
-    //             return setIsStarted(false)
-    //         }, 300)
+            return () => clearInterval(timer)
+        }
+        return () => setProgress(0)
+    }, [progress, isStarted])
 
-    //         return () => clearInterval(timer)
-    //     }
-    //     return () => setProgress(0)
-    // }, [progress, isStarted])
+    useEffect(() => {
+        console.log("hook3")
 
-    // useEffect(() => {
-    //     console.log("hook3")
+        if (!isStarted) setProgress(0)
+    }, [isStarted])
 
-    //     if (!isStarted) setProgress(0)
-    // }, [isStarted])
     return (
         <li className="flex items-center space-x-2.5 text-center   ">
             <span className="uppercase">{firstLetter}</span>
             <Bar value={progress} name={name} color={color} />
 
-            {/* <SpriteIcons
-                className="h-[61px] w-[55px] rotate-90 fill-rose-600 absolute left-4"
-                style={{ color: "orange", left: `${value}%` }}
-                name="sprinter"
-            /> */}
-            {/* <span className="grow border-4 border-dashed dashed border-[#99D69D]"></span> */}
             <span className="uppercase">{lastLetter}</span>
         </li>
     )

@@ -13,7 +13,7 @@ export enum EKukarachaColor {
 export enum EKukarachaType {
     default = "выбирите тип",
 
-    fastStep = "быстролап",
+    fastfoot = "быстролап",
     sprinter = "спринтер",
     turkish = "туреций",
     field = "полевой",
