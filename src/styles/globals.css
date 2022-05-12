@@ -12,6 +12,9 @@
         /* font-family: "Roboto Serif", serif; */
         @apply bg-[#00990B];
     }
+    .slider-thumb::-webkit-slider-thumb {
+        @apply appearance-none;
+    }
     html {
         font-family: "Roboto", sans-serif;
     }

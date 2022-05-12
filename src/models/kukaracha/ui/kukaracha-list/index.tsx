@@ -1,7 +1,7 @@
 import clsx from "clsx"
 import { memo } from "react"
 import type { TKukaracha } from "models/kukaracha/lib"
-import { generateKukaracha } from "../kukaracha-image"
+import { SpriteIcons } from "shared/ui/icons"
 
 interface KukarachaListProps {
     items: TKukaracha[]
@@ -34,11 +34,6 @@ interface KukarachaListItemProps {
 }
 const KukarachaListItem = memo(
     ({ kukaracha, selected = false, onClick, id }: KukarachaListItemProps) => {
-        const kuka = generateKukaracha({
-            color: kukaracha.color,
-            type: kukaracha.type.value,
-            size: "small",
-        })
         return (
             <li
                 onClick={() => onClick(kukaracha.id)}
@@ -47,7 +42,11 @@ const KukarachaListItem = memo(
                     selected && "bg-[#99D69D]"
                 )}
             >
-                {kuka}
+                <SpriteIcons
+                    style={{ color: kukaracha.color }}
+                    name={kukaracha.type.value}
+                    className="h-[68px] w-[61px]"
+                />
                 <span className="grow first-letter:uppercase">{kukaracha.name}</span>
             </li>
         )

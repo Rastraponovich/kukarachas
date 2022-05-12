@@ -1,39 +1,25 @@
 import { NextPage } from "next"
-import { memo } from "react"
-import AmericanKukarachaIcon from "shared/ui/icons/AmericanKukarachaIcon"
-import FastFootKukarachaIcon from "shared/ui/icons/FastFootKukarachaIcon"
-import FieldKukarachaIcon from "shared/ui/icons/FieldKukarachaIcon"
-import TurkishKukarachaIcon from "shared/ui/icons/TurkishKukarachaIcon"
+import { InputHTMLAttributes, memo, useEffect, useState } from "react"
+import { Button } from "shared/ui/button"
+import { MegaphoneIcon, SpriteIcons } from "shared/ui/icons"
+import { Modal } from "shared/ui/modal"
 import { Layout } from "widgets/layout"
 
 const __tracks__ = [
-    { id: 1, firstLetter: "с", lastLetter: "ф" },
-    { id: 2, firstLetter: "т", lastLetter: "и" },
-    { id: 3, firstLetter: "а", lastLetter: "н" },
-    { id: 4, firstLetter: "р", lastLetter: "и" },
-    { id: 5, firstLetter: "т", lastLetter: "ш" },
+    { id: 1, firstLetter: "с", lastLetter: "ф", value: 0, name: "turkish", color: "blue" },
+    { id: 2, firstLetter: "т", lastLetter: "и", value: 0, name: "american", color: "cyan" },
+    { id: 3, firstLetter: "а", lastLetter: "н", value: 0, name: "sprinter", color: "orange" },
+    { id: 5, firstLetter: "т", lastLetter: "ш", value: 0, name: "fastfoot", color: "black" },
+    { id: 4, firstLetter: "р", lastLetter: "и", value: 0, name: "field", color: "red" },
 ]
 
 const GamePage: NextPage = () => {
+    const [range, setRange] = useState(0)
+    const [starting, setStarting] = useState(false)
     return (
         <Layout color="bg-[#E1BC73]">
-            <div className="flex space-x-7">
-                <svg
-                    width="73"
-                    height="72"
-                    viewBox="0 0 73 72"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                >
-                    <path
-                        d="M15.0684 51.82C11.3373 51.82 7.75893 50.1167 5.1206 47.0848C2.48228 44.0529 1.00008 39.9407 1.00008 35.6529C1.00008 31.3651 2.48228 27.2529 5.1206 24.221C7.75893 21.1891 11.3373 19.4858 15.0684 19.4858H29.1368C29.1368 19.4858 48.3049 19.4858 66.7344 1.74232C67.1443 1.35251 67.642 1.10425 68.1697 1.02635C68.6975 0.948452 69.2336 1.0441 69.7159 1.30221C70.1983 1.56032 70.607 1.97029 70.8948 2.48458C71.1826 2.99887 71.3376 3.59639 71.3418 4.20781V67.098C71.3376 67.7094 71.1826 68.3069 70.8948 68.8212C70.607 69.3355 70.1983 69.7455 69.7159 70.0036C69.2336 70.2617 68.6975 70.3574 68.1697 70.2795C67.642 70.2016 67.1443 69.9533 66.7344 69.5635C48.3049 51.82 29.1368 51.82 29.1368 51.82H15.0684Z"
-                        fill="white"
-                        stroke="black"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                </svg>
+            <div className="flex">
+                <MegaphoneIcon className="w-[73px] h-[77px] mr-7" />
 
                 <p className="p-2.5 bg-white rounded-xl text-xl leading-[23px] font-normal">
                     В предыдущем раунде победу разделили между собой Усач и Строгач, к сожалению
@@ -48,9 +34,61 @@ const GamePage: NextPage = () => {
                             key={track.id}
                             firstLetter={track.firstLetter}
                             lastLetter={track.lastLetter}
+                            name={track.name}
+                            color={track.color}
+                            value={range}
+                            starting={starting}
                         />
                     ))}
                 </ul>
+                <div className="flex justify-between">
+                    <div className="flex flex-col text-sm mt-3 space-y-3">
+                        <div>
+                            <h2 className="first-letter:uppercase text-xl leading-6 mb-3">
+                                лайв стрим
+                            </h2>
+                            <table className="table-auto">
+                                <tbody>
+                                    <TableRow />
+                                    <TableRow />
+                                    <TableRow />
+                                    <TableRow />
+                                    <TableRow />
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <Button onClick={() => setStarting((prev) => !prev)}>start</Button>
+                        {/* <input
+                    type="range"
+                    name=""
+                    id=""
+                    value={range}
+                    min={0}
+                    step={1}
+                    max={100}
+                    onChange={(e) => setRange(Number(e.target.value))}
+                /> */}
+                    </div>
+
+                    <Modal>
+                        <div>еба еба</div>
+                    </Modal>
+                    <div className="flex flex-col space-y-2.5 px-10 justify-center text-2xl leading-7">
+                        <Button
+                            disabled
+                            className="w-full px-10 py-2.5 first-letter:uppercase rounded-lg"
+                        >
+                            повторить забег
+                        </Button>
+                        <Button
+                            disabled
+                            className="w-full px-10 py-2.5 first-letter:uppercase rounded-lg"
+                        >
+                            поменять состав
+                        </Button>
+                    </div>
+                </div>
             </section>
         </Layout>
     )
@@ -61,17 +99,103 @@ export default GamePage
 interface TrackProps {
     firstLetter: string
     lastLetter: string
+    value: number
+    starting: boolean
+    name: string
+    color: string
 }
-const Track = memo(({ firstLetter, lastLetter }: TrackProps) => {
+const Track = memo(({ firstLetter, lastLetter, value, starting, name, color }: TrackProps) => {
+    const [progress, setProgress] = useState(value)
+    const [isStarted, setIsStarted] = useState(starting)
+
+    useEffect(() => {
+        console.log("hook1")
+
+        if (starting) setIsStarted(true)
+    }, [starting])
+
+    // useEffect(() => {
+    //     console.log("hook2")
+
+    //     if (isStarted) {
+    //         const timer = setInterval(() => {
+    //             if (progress < 100)
+    //                 return setProgress(progress + Math.floor(Math.random() * (3 - 1 + 1) + 1))
+    //             return setIsStarted(false)
+    //         }, 300)
+
+    //         return () => clearInterval(timer)
+    //     }
+    //     return () => setProgress(0)
+    // }, [progress, isStarted])
+
+    // useEffect(() => {
+    //     console.log("hook3")
+
+    //     if (!isStarted) setProgress(0)
+    // }, [isStarted])
     return (
-        <li className="flex items-center space-x-2.5 text-center  ">
+        <li className="flex items-center space-x-2.5 text-center   ">
             <span className="uppercase">{firstLetter}</span>
-            {/* <div className=" h-[61px] w-[55px]  relative">{kukaracha}</div> */}
-            <FieldKukarachaIcon className="h-[61px] w-[55px] rotate-90 fill-rose-600" />
-            <span className="grow border-4 border-dashed dashed border-[#99D69D]"></span>
+            <Bar value={progress} name={name} color={color} />
+
+            {/* <SpriteIcons
+                className="h-[61px] w-[55px] rotate-90 fill-rose-600 absolute left-4"
+                style={{ color: "orange", left: `${value}%` }}
+                name="sprinter"
+            /> */}
+            {/* <span className="grow border-4 border-dashed dashed border-[#99D69D]"></span> */}
             <span className="uppercase">{lastLetter}</span>
         </li>
     )
 })
 
 Track.displayName = "Track"
+
+interface BarProps extends InputHTMLAttributes<HTMLInputElement> {}
+const Bar = ({ name, color, ...props }: BarProps) => {
+    return (
+        <label className="h-[61px] relative flex grow w-full px-7">
+            <input
+                {...props}
+                id="balance"
+                type="range"
+                min="0"
+                max="100"
+                step="1"
+                title="Kukaracha"
+                readOnly
+                // style={{ backgroundPosition: `0px ${currentStep * 15}px` }}
+                className="slider-thumb w-full appearance-none bg-track-pattern bg-center  bg-repeat-x"
+                // onChange={handleChangeBalance}
+                // onMouseDown={handleMouseDown}
+                // onMouseUp={handleMouseUp}
+            />
+            <SpriteIcons
+                className="h-[61px] w-[55px] rotate-90 fill-rose-600 absolute left-4  transition-kuka duration-300 "
+                style={{ color, left: `${props.value}%` }}
+                name={name}
+            />
+        </label>
+    )
+}
+
+const TableRow = memo(() => {
+    return (
+        <tr className="">
+            <td className="px-1">Усач</td>
+
+            <td className="px-1">
+                <span>позиция в гонке : 1</span>
+            </td>
+            <td className="px-1">
+                <span>средняя скорость: 2px</span>
+            </td>
+            <td className="px-1">
+                <span>пикселей с секунду 1.2px</span>
+            </td>
+        </tr>
+    )
+})
+
+TableRow.displayName = "TableRow"

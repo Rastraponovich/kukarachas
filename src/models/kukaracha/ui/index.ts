@@ -1,1 +1,1 @@
-export * from "./kukaracha-image"
+export * from "./kukaracha-list"

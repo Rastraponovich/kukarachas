@@ -1,4 +1,4 @@
-export type TKukarachaType = "default" | "fastStep" | "sprinter" | "turkish" | "field" | "american"
+export type TKukarachaType = "default" | "fastfoot" | "sprinter" | "turkish" | "field" | "american"
 export type TKukarachaColor = "default" | "red" | "blue" | "orange" | "green" | "pink"
 
 export enum EKukarachaColor {

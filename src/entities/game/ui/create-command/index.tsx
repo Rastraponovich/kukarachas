@@ -1,9 +1,10 @@
 import clsx from "clsx"
 import { useEvent } from "effector-react/scope"
-import { KukarachaImage, kukarachaModel } from "models/kukaracha"
+import { kukarachaModel } from "models/kukaracha"
 import { KukarachaList } from "models/kukaracha/ui/kukaracha-list"
 import { Button } from "shared/ui/button"
 import { ColorPicker } from "shared/ui/color-picker"
+import { SpriteIcons } from "shared/ui/icons"
 import { Input } from "shared/ui/input"
 import { Select } from "shared/ui/select"
 
@@ -74,18 +75,21 @@ export const CreateCommand = () => {
                     </Button>
                 </form>
                 <div className="flex flex-col justify-between rounded-2xl bg-white p-10">
-                    <KukarachaImage
-                        type={currentKukaracha.type.value}
-                        color={currentKukaracha.color}
-                    />
+                    <div className="relative  bg-white rounded-xl flex items-center justify-center ">
+                        <SpriteIcons
+                            name={currentKukaracha.type.value}
+                            style={{ color: currentKukaracha.color }}
+                        />
+                    </div>
+
                     <Button className="self-center first-letter:uppercase" disabled={!allowSubmit}>
                         утвердить комманду
                     </Button>
                 </div>
                 <div
                     className={clsx(
-                        "flex flex-col bg-white p-2.5 grow justify-between rounded-2xl text-center text-2xl leading-7",
-                        kukarachas.length === 0 && "justify-center space-y-10"
+                        "flex flex-col bg-white p-2.5 grow  rounded-2xl text-center text-2xl leading-7",
+                        kukarachas.length === 0 ? "justify-center space-y-10" : "justify-between"
                     )}
                 >
                     {kukarachas.length === 0 && (
@@ -103,7 +107,7 @@ export const CreateCommand = () => {
                     {kukarachas.length < 5 && (
                         <>
                             <Button
-                                className="px-5 mb-[30px]"
+                                className="px-5 mb-[30px] "
                                 onClick={handleAddedMoreKukarachasClicked}
                             >
                                 добавить еще участника

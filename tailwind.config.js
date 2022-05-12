@@ -6,10 +6,16 @@ module.exports = {
             fontFamily: {
                 roboto: ['"Roboto Serif"', "serif"],
             },
+            backgroundImage: {
+                "track-pattern": "url('/assets/images/track.svg')",
+            },
+            transitionProperty: {
+                kuka: ["left"],
+            },
         },
+        variants: {
+            extend: {},
+        },
+        plugins: [],
     },
-    variants: {
-        extend: {},
-    },
-    plugins: [],
 }
