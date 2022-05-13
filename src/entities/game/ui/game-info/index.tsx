@@ -1,12 +1,12 @@
 import clsx from "clsx"
 import { EKukarachaType, TKukaracha } from "models/kukaracha/lib"
-import { memo, useCallback, useEffect, useRef, useState } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import { Button } from "shared/ui/button"
 import { SpriteIcons } from "shared/ui/icons"
 import { Modal } from "shared/ui/modal"
 
 export const GameInfo = () => {
-    const [isOpened, setIsOpened] = useState(true)
+    const [isOpened, setIsOpened] = useState(false)
     const [isRaceEnded, setIsRaceEnded] = useState(true)
     const [selected, setSelected] = useState<number | null>(null)
     const [players, setPlayers] = useState(kukarachasInRace)
@@ -129,9 +129,13 @@ interface KukarachaListItemProps {
 }
 const KukarachaListItem = memo(
     ({ selected, onClick, kukaracha, isRaceEnded }: KukarachaListItemProps) => {
+        const handleClick = () => {
+            onClick(kukaracha.id)
+        }
+
         return (
             <li
-                onClick={() => onClick(kukaracha.id)}
+                onClick={handleClick}
                 className={clsx("rounded-lg flex items-center  p-2.5", selected && "bg-[#99D69D]")}
             >
                 <SpriteIcons
@@ -149,24 +153,11 @@ const KukarachaListItem = memo(
                 </span>
                 {isRaceEnded &&
                     (kukaracha.finished ? (
-                        <div
-                            className={clsx(
-                                "flex  text-left",
-                                kukaracha.place === 2 && "text-xl leading-6",
-                                kukaracha.place === 3 && "text-base leading-4",
-                                kukaracha.place === 4 && "text-sm leading-3.5",
-                                kukaracha.place === 5 && "text-sm leading-3.5"
-                            )}
-                        >
-                            <span className="after:content-['-'] after:mx-1">
-                                {kukaracha.place} Место
-                            </span>
-                            <span>{kukaracha.time}с</span>
-                        </div>
+                        <KukarachaStats place={kukaracha.place} time={kukaracha.time} />
                     ) : (
-                        <div className={clsx("flex justify-start ", "text-sm leading-3.5")}>
-                            <span>тут смешная шутка</span>
-                        </div>
+                        <span className="flex justify-start text-sm leading-3.5">
+                            тут смешная шутка
+                        </span>
                     ))}
             </li>
         )
@@ -174,3 +165,24 @@ const KukarachaListItem = memo(
 )
 
 KukarachaListItem.displayName = "KukarachaListItem"
+
+interface KukarachaStatsProps {
+    place: number
+    time: number
+}
+const KukarachaStats = memo(({ place, time }: KukarachaStatsProps) => {
+    const placeStyles = {
+        1: null,
+        2: "text-xl leading-6",
+        3: "text-base leading-4",
+        4: "text-sm leading-3.5",
+        5: "text-sm leading-3.5",
+    }
+
+    return (
+        <div className={clsx("flex  text-left", placeStyles[place])}>
+            <span className="after:content-['-'] after:mx-1">{place} Место</span>
+            <span>{time}с</span>
+        </div>
+    )
+})

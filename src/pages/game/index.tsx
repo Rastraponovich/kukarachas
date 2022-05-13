@@ -1,21 +1,16 @@
+import { useEvent } from "effector-react/scope"
+import { raceModel } from "entities/game"
 import { GameInfo } from "entities/game/ui/game-info"
 import { NextPage } from "next"
-import { InputHTMLAttributes, memo, useEffect, useState } from "react"
+import { InputHTMLAttributes, memo, useEffect, useRef, useState } from "react"
 import { Button } from "shared/ui/button"
 import { MegaphoneIcon, SpriteIcons } from "shared/ui/icons"
 import { Layout } from "widgets/layout"
 
-const __tracks__ = [
-    { id: 1, firstLetter: "с", lastLetter: "ф", value: 0, name: "turkish", color: "blue" },
-    { id: 2, firstLetter: "т", lastLetter: "и", value: 0, name: "american", color: "cyan" },
-    { id: 3, firstLetter: "а", lastLetter: "н", value: 0, name: "sprinter", color: "orange" },
-    { id: 5, firstLetter: "т", lastLetter: "ш", value: 0, name: "fastfoot", color: "black" },
-    { id: 4, firstLetter: "р", lastLetter: "и", value: 0, name: "field", color: "red" },
-]
-
 const GamePage: NextPage = () => {
-    const [range, setRange] = useState(0)
-    const [starting, setStarting] = useState(false)
+    const handleStart = useEvent(raceModel.events.startedRaceButtonClicked)
+
+    const tracks = raceModel.selectors.useTrackList()
     return (
         <Layout color="bg-[#E1BC73]">
             <div className="flex">
@@ -29,16 +24,8 @@ const GamePage: NextPage = () => {
             </div>
             <section className="mt-2.5 bg-white rounded-2xl pl-10 pr-2.5 py-10 text-2xl leading-7">
                 <ul className="flex flex-col ">
-                    {__tracks__.map((track) => (
-                        <Track
-                            key={track.id}
-                            firstLetter={track.firstLetter}
-                            lastLetter={track.lastLetter}
-                            name={track.name}
-                            color={track.color}
-                            value={range}
-                            starting={starting}
-                        />
+                    {tracks.map((track) => (
+                        <Track key={track} id={track} />
                     ))}
                 </ul>
                 <div className="flex justify-between">
@@ -58,17 +45,7 @@ const GamePage: NextPage = () => {
                             </table>
                         </div>
 
-                        <Button onClick={() => setStarting((prev) => !prev)}>start</Button>
-                        {/* <input
-                    type="range"
-                    name=""
-                    id=""
-                    value={range}
-                    min={0}
-                    step={1}
-                    max={100}
-                    onChange={(e) => setRange(Number(e.target.value))}
-                /> */}
+                        <Button onClick={handleStart}>start</Button>
                     </div>
 
                     <GameInfo />
@@ -95,33 +72,27 @@ const GamePage: NextPage = () => {
 export default GamePage
 
 interface TrackProps {
-    firstLetter: string
-    lastLetter: string
-    value: number
-    starting: boolean
-    name: string
-    color: string
+    id: number
 }
-const Track = memo(({ firstLetter, lastLetter, value, starting, name, color }: TrackProps) => {
-    const [progress, setProgress] = useState(value)
-    const [isStarted, setIsStarted] = useState(starting)
+const Track = memo(({ id }: TrackProps) => {
+    const track = raceModel.selectors.useGetTrack(id)
 
-    useEffect(() => {
-        if (starting) return () => setIsStarted(true)
-        return () => setIsStarted(false)
-    }, [starting])
+    const { lastLetter, firstLetter, favorite } = track
+    const { value, type, color } = track.kukaracha
+
+    const [progress, setProgress] = useState(value)
+    const isStarted = raceModel.selectors.useRaceIsStarted()
 
     useEffect(() => {
         if (isStarted) {
+            setProgress(0)
             const timer = setInterval(() => {
                 if (progress < 100)
                     return setProgress(progress + Math.floor(Math.random() * (3 - 1 + 1) + 1))
-                return setIsStarted(false)
             }, 300)
 
             return () => clearInterval(timer)
         }
-        return () => setProgress(0)
     }, [progress, isStarted])
 
     useEffect(() => {
@@ -133,7 +104,7 @@ const Track = memo(({ firstLetter, lastLetter, value, starting, name, color }: T
     return (
         <li className="flex items-center space-x-2.5 text-center   ">
             <span className="uppercase">{firstLetter}</span>
-            <Bar value={progress} name={name} color={color} />
+            <Bar value={progress} name={type.value} color={color} favorite={favorite} />
 
             <span className="uppercase">{lastLetter}</span>
         </li>
@@ -142,8 +113,34 @@ const Track = memo(({ firstLetter, lastLetter, value, starting, name, color }: T
 
 Track.displayName = "Track"
 
-interface BarProps extends InputHTMLAttributes<HTMLInputElement> {}
-const Bar = ({ name, color, ...props }: BarProps) => {
+interface BarProps extends InputHTMLAttributes<HTMLInputElement> {
+    favorite: boolean
+}
+const Bar = ({ favorite, name, color, ...props }: BarProps) => {
+    const ref = useRef<SVGSVGElement>(null)
+    const [speed, setSpeed] = useState(0)
+    const [positions, setPositions] = useState([])
+    const [speeds, setSpeeds] = useState([0])
+
+    const [avgSpeed, setAvgSpeed] = useState(0)
+
+    useEffect(() => {
+        const current = ref.current.getClientRects()
+        const result =
+            positions.length > 0 ? Math.floor(current[0].x - positions[positions.length - 1]) : 0
+        setSpeeds([...speeds, result])
+        setPositions([...positions, current[0].x])
+
+        return () => setSpeed(0)
+    }, [props.value])
+
+    useEffect(() => {
+        const count = positions.length
+        const speedSummary = speeds.reduce((acc, val) => acc + val, 0)
+
+        setAvgSpeed(Math.floor(speedSummary / count))
+    }, [positions])
+
     return (
         <label className="h-[61px] relative flex grow w-full px-7">
             <input
@@ -161,10 +158,22 @@ const Bar = ({ name, color, ...props }: BarProps) => {
                 // onMouseDown={handleMouseDown}
                 // onMouseUp={handleMouseUp}
             />
+            <span className="text-xs absolute top-0 left-0 z-50">
+                текущая скорость {speeds[speeds.length - 1]}px / avg :{avgSpeed}px
+            </span>
+            {favorite && (
+                <div
+                    className="self-center absolute bg-[#C4C4C4] rounded-lg py-2.5 text-sm leading-[14px] overflow-hidden w-0 -mr-7 flex justify-end "
+                    style={{ width: `calc(${props.value}% - 28px)` }}
+                >
+                    <Button className=" py-1.5 px-[15px] mr-7">ткнуть палкой</Button>
+                </div>
+            )}
             <SpriteIcons
                 className="h-[61px] w-[55px] rotate-90 fill-rose-600 absolute left-4  transition-kuka duration-300 "
                 style={{ color, left: `${props.value}%` }}
                 name={name}
+                ref={ref}
             />
         </label>
     )

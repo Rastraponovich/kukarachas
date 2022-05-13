@@ -1,6 +1,6 @@
-import { ComponentProps, Ref, forwardRef } from "react"
+import { ComponentProps, Ref, forwardRef, ForwardedRef } from "react"
 
-const Sprite = (props: ComponentProps<"svg">, svgRef: Ref<SVGSVGElement>) => {
+const Sprite = (props: ComponentProps<"svg">, svgRef: ForwardedRef<SVGSVGElement>) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
