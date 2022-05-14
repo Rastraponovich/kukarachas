@@ -1,6 +1,6 @@
 import { useEvent } from "effector-react/scope"
 import { raceModel } from "entities/game"
-import { GameInfo } from "entities/game/ui/game-info"
+import { GameInfo } from "features/game-ifno/ui"
 import { NextPage } from "next"
 import { InputHTMLAttributes, memo, useEffect, useRef, useState } from "react"
 import { Button } from "shared/ui/button"

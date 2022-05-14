@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import { memo } from "react"
-import type { TKukaracha } from "models/kukaracha/lib"
+import type { TKukaracha } from "entities/kukaracha/lib"
 import { SpriteIcons } from "shared/ui/icons"
 
 interface KukarachaListProps {

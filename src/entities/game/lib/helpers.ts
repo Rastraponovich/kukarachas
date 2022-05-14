@@ -1,4 +1,4 @@
-import { EKukarachaType } from "models/kukaracha/lib"
+import { EKukarachaType } from "entities/kukaracha/lib"
 import { TTrack } from "./models"
 
 export const __tracks__: TTrack[] = [

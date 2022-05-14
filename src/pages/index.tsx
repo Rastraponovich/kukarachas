@@ -1,4 +1,4 @@
-import { CreateCommand } from "entities/game/ui/create-command"
+import { CreateCommand } from "features/create-command"
 import { NextPage } from "next"
 import { Layout } from "widgets/layout"
 

@@ -2,18 +2,9 @@ import type { ChangeEvent, FormEvent } from "react"
 import { useStore } from "effector-react"
 import { createEvent, createStore, sample } from "effector"
 
-import { EKukarachaType } from "../lib"
-import type { TKukaracha, TKukarachaColors, TKukarachaTypes } from "../lib"
+import type { TKukaracha, TKukarachaTypes } from "entities/kukaracha/lib"
 
-import { __kukarachas__, __kukarachesColors__, __kukarachesTypes__ } from "../lib/helpers"
-
-const __bulkKukaracha__: TKukaracha = {
-    id: 0,
-    name: "",
-    age: 0,
-    type: { id: 0, name: EKukarachaType.default, value: "default" },
-    color: "#000000",
-}
+import { __bulkKukaracha__, __kukarachesTypes__ } from "../lib"
 
 const $canSubmitTeam = createStore<boolean>(false)
 const $canSubmitKukaracha = createStore<boolean>(false)
@@ -21,9 +12,8 @@ const $canSubmitKukaracha = createStore<boolean>(false)
 const addedKukaracha = createEvent<TKukaracha>()
 
 const addedKukarachaButtonClicked = createEvent()
-const $kukarachas = createStore<TKukaracha[]>([])
+const $command = createStore<Array<TKukaracha>>([])
 
-const $kukarachasColors = createStore<TKukarachaColors[]>(__kukarachesColors__)
 const $kukarachasTypes = createStore<TKukarachaTypes[]>(__kukarachesTypes__)
 
 const setKukaracha = createEvent<ChangeEvent<HTMLInputElement>>()
@@ -40,7 +30,7 @@ const $currentKukaracha = createStore<TKukaracha>(__bulkKukaracha__)
 
 sample({
     clock: addedKukarachaButtonClicked,
-    source: $kukarachas,
+    source: $command,
     fn: (kukarachas, _) => ({ ...__bulkKukaracha__, id: kukarachas.length }),
     target: $currentKukaracha,
 })
@@ -61,14 +51,14 @@ const submitKukaracha = createEvent<FormEvent<HTMLFormElement>>()
 submitKukaracha.watch((e) => e.preventDefault())
 
 sample({
-    clock: $kukarachas,
+    clock: $command,
     filter: (kukarachas) => kukarachas.length === 5,
     fn: () => true,
     target: $canSubmitTeam,
 })
 
 sample({
-    clock: $kukarachas,
+    clock: $command,
     filter: (kukarachas) => kukarachas.length < 5,
     fn: () => false,
     target: $canSubmitTeam,
@@ -84,18 +74,18 @@ sample({
 
 const selectKukaracha = createEvent<TKukaracha["id"]>()
 
-const $selectedKukaracha = createStore<TKukaracha["id"] | null>(null).reset($kukarachas)
+const $selectedKukaracha = createStore<TKukaracha["id"] | null>(null).reset($command)
 
 sample({
     clock: selectKukaracha,
-    source: $kukarachas,
+    source: $command,
     fn: (kukarachas, id) => kukarachas.find((kukaracha) => kukaracha.id === id).id,
     target: $selectedKukaracha,
 })
 
 sample({
     clock: selectKukaracha,
-    source: $kukarachas,
+    source: $command,
     filter: (kukarachas) => kukarachas.length > 0,
     fn: (kukarachas, id) => kukarachas.find((item) => item.id === id),
     target: $currentKukaracha,
@@ -103,25 +93,25 @@ sample({
 
 sample({
     clock: addedKukaracha,
-    source: [$selectedKukaracha, $kukarachas],
+    source: [$selectedKukaracha, $command],
     filter: ([selectedKukaracha, _], payload) => selectedKukaracha === null,
     fn: ([_, kukarachas]: [TKukaracha["id"], TKukaracha[]], event) => [
         ...kukarachas,
         { ...event, id: kukarachas.length },
     ],
-    target: $kukarachas,
+    target: $command,
 })
 
 sample({
     clock: addedKukaracha,
-    source: [$selectedKukaracha, $kukarachas],
+    source: [$selectedKukaracha, $command],
     filter: ([selectedKukarachaId, _], payload) => selectedKukarachaId !== null,
     fn: ([selectedKukarachaId, kukarachas]: [TKukaracha["id"], TKukaracha[]], event) =>
         kukarachas.map((kuka) => {
             if (kuka.id === selectedKukarachaId) return event
             return kuka
         }),
-    target: $kukarachas,
+    target: $command,
 })
 
 const submitTeam = createEvent()
@@ -135,15 +125,7 @@ export const events = {
     addedKukarachaButtonClicked,
 }
 
-export const stores = {
-    $kukarachas,
-    $kukarachasColors,
-    $kukarachasTypes,
-    $currentKukaracha,
-}
-
-const useKukarachas = () => useStore($kukarachas)
-const useKukarachasColors = () => useStore($kukarachasColors)
+const useCommand = () => useStore($command)
 const useKukarachasTypes = () => useStore($kukarachasTypes)
 
 const useCurrentKukaracha = () => useStore($currentKukaracha)
@@ -153,8 +135,7 @@ const useSelectedKukaracha = () => useStore($selectedKukaracha)
 const useCanSubmitKukaracha = () => useStore($canSubmitKukaracha)
 
 export const selectors = {
-    useKukarachas,
-    useKukarachasColors,
+    useCommand,
     useKukarachasTypes,
     useCurrentKukaracha,
     useAllowSubmitTeam,

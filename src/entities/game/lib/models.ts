@@ -1,4 +1,4 @@
-import { TKukaracha } from "models/kukaracha/lib"
+import { TKukaracha } from "entities/kukaracha/lib"
 
 export type TTrack = {
     id: number
@@ -13,4 +13,6 @@ export interface IKukarachaRace extends Partial<TKukaracha> {
     speed: number | null
     avgSpeed: number | null
     value: number
+    finished?: boolean
+    time?: number
 }
