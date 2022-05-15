@@ -4,19 +4,19 @@ import { TKukaracha } from "entities/kukaracha/lib"
 import { __kukarachasInRace__ } from "../lib"
 
 const toggleOpenedWindow = createEvent()
-const $isOpenedWindow = createStore<boolean>(true).on(toggleOpenedWindow, (state, _) => !state)
+const $isOpenedWindow = createStore<boolean>(false).on(toggleOpenedWindow, (state, _) => !state)
 
-const selectKukarachaId = createEvent<TKukaracha>()
-const $selectedKukarachaId = createStore<TKukaracha | null>(null).on(
+const selectKukarachaId = createEvent<TKukaracha["id"]>()
+const $selectedKukarachaId = createStore<TKukaracha["id"] | null>(null).on(
     selectKukarachaId,
     (selected, event) => {
-        if (selected.id === event.id) return null
+        if (selected === event) return null
         return event
     }
 )
 
 const toggleRaceEnded = createEvent()
-const $isRaceEnded = createStore<boolean>(true).on(toggleRaceEnded, (state, _) => !state)
+const $isRaceEnded = createStore<boolean>(false).on(toggleRaceEnded, (state, _) => !state)
 
 const $kukarachasInRace = createStore<typeof __kukarachasInRace__>(__kukarachasInRace__)
 

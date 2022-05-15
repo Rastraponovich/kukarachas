@@ -15,6 +15,7 @@ export const __tracks__: TTrack[] = [
             color: "blue",
             value: 0,
         },
+        value: 0,
 
         favorite: false,
     },
@@ -31,6 +32,7 @@ export const __tracks__: TTrack[] = [
             color: "cyan",
             value: 0,
         },
+        value: 0,
 
         favorite: false,
     },
@@ -47,6 +49,7 @@ export const __tracks__: TTrack[] = [
             color: "orange",
             value: 0,
         },
+        value: 0,
 
         favorite: false,
     },
@@ -63,6 +66,7 @@ export const __tracks__: TTrack[] = [
             color: "black",
             value: 0,
         },
+        value: 0,
 
         favorite: false,
     },
@@ -79,6 +83,7 @@ export const __tracks__: TTrack[] = [
             color: "red",
             value: 0,
         },
+        value: 0,
         favorite: true,
     },
 ]

@@ -9,7 +9,7 @@ import { selectors, events } from "../model"
 
 export const GameInfo = () => {
     const isOpenedWindow = selectors.useIsOpenedWindow()
-    const selectedKukaracha = selectors.useSelectedKukarachaId()
+    const selectedKukarachaId = selectors.useSelectedKukarachaId()
     const isRaceEnded = selectors.useIsRaceEnded()
     const kukarachasInRace = selectors.useKukarachasInRace()
     const toggleIsOpened = useEvent(events.toggleOpenedWindow)
@@ -28,7 +28,7 @@ export const GameInfo = () => {
                             key={kukaracha.id}
                             selected={
                                 !isRaceEnded
-                                    ? selectedKukaracha.id === kukaracha.id
+                                    ? selectedKukarachaId === kukaracha.id
                                     : kukaracha.place === 1
                             }
                             kukaracha={kukaracha}
@@ -58,7 +58,7 @@ const KukarachaListItem = memo(({ selected, kukaracha, isRaceEnded }: KukarachaL
 
     return (
         <li
-            onClick={() => handleClick(kukaracha)}
+            onClick={() => handleClick(kukaracha.id)}
             className={clsx("rounded-lg flex items-center  p-2.5", selected && "bg-[#99D69D]")}
         >
             <SpriteIcons

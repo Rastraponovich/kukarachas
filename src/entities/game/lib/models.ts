@@ -6,6 +6,7 @@ export type TTrack = {
     lastLetter: string
     favorite: boolean
     kukaracha: IKukarachaRace
+    value: number
 }
 
 export interface IKukarachaRace extends Partial<TKukaracha> {
